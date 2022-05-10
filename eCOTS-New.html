@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>An End-to-end Project-based Approach to Teaching Data Mining Process </title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Cheng Peng " />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# <font size = 7 color = "skyblue">An End-to-end Project-based Approach to Teaching Data Mining Process </font>
+]
+.subtitle[
+## <font size = 6 color = "gold">A Case Study in Credit Card Fraud Detection </font>
+]
+.author[
+### <font size = 6 color = "skyblue">Cheng Peng </font>
+]
+.institute[
+### <font size = 6 color = "skyblue">West Chester University of Pennsylvania</font><br>
+]
+.date[
+### <font color = "skyblue" size =5>05/14/2022 <font> <br> <font color = "skyblue" size =4> Presented at<br> </font> <br> <font color = "gold" size = 6> eCOTS 2022: Teaching Data Mining </font> <br> <br> <font color = "white" size = 5> Slides available at: </font>
+]
+
+---
+
+
+
+
+
+
+class: inverse, middle
+## Agenda
+
+### Learning from Learning Theories
+
+- Learning Theories
+
+- Pedagogical Strategies
+
+### Case-study: Credit Card Fraud Mining
+
+- Fraud Background
+
+- Analytic View of Fraud and Challenges
+
+- Feature Extraction
+
+- Analytic Fraud Identification Methods and Assessment
+
+- Deployment and Automation
+
+
+---
+class: inverse, center, middle
+
+
+# Learning from Learning Theories
+
+
+
+---
+class: center, middle
+
+# Teaching DM Process vs Techniques
+
+Cross-Industry Standard Process for Data Mining (CRISP-DM)
+
+&lt;img src = "https://github.com/pengdsci/eCOTS2022/blob/main/CRISP-DM.png?raw=true"&gt;
+
+
+---
+# Learning from Learning Theories
+
+There are many learning theories. They all fall under the three major theories.
+
+&lt;center&gt;&lt;img src = "https://github.com/pengdsci/eCOTS2022/blob/main/learningTheory.png?raw=true" width="200" height="150"&gt;&lt;/center&gt;
+
+-	**Behaviorism Learning Theory**: knowledge is independent and on the exterior of the learner. It focuses on the outside environment’s influences on learning.
+
+-	**Cognitive Learning Theory**: processing information received rather than just responding to a stimulus as in behaviorism learning theory. It uses metacognition - “thinking about thinking”—to understand how &lt;font color = "red"&gt; thought processes influence learning &lt;/font&gt;.
+
+-	**Constructivism Learning Theory**: constructing learning new ideas based on the prior knowledge and experiences &lt;font color = "red"&gt; through active engagement with the world (such as experiments or real-world problem solving) &lt;/font&gt;
+
+---
+
+# Some Principles of Constructivism Theory
+
+I am a firm believer of constructivism learning theory.
+
+
+-	&lt;font color = "blue"&gt;&lt;b&gt;Knowledge is constructed&lt;/b&gt;&lt;/font&gt;. This is the basic principle, meaning that knowledge is built upon the foundation of previous learning.
+
+-	&lt;font color = "blue"&gt;&lt;b&gt;Learning is a social activity&lt;/b&gt;&lt;/font&gt;. Learning is something we do together, in interaction with each other, rather than an abstract concept.
+
+-	There is no knowledge independent of the meaning attributed to experience (constructed) by the learner, or community of learners.
+
+-	&lt;font color = "blue"&gt;&lt;b&gt;Learning is contextual&lt;/b&gt;&lt;/font&gt;: we do not learn isolated facts and theories that are separated from the rest of our lives. 
+
+-	&lt;font color = "blue"&gt;&lt;b&gt;Motivation is key to learning&lt;/b&gt;&lt;/font&gt;. Cognitive motivation is rooted in the availability of information and past experience/ prior knowledge.  
+
+
+
+---
+# My Adopted Pedagogies in Teaching Analyics
+
+
+
+-	Providing experience with the knowledge construction process - students determine how they will learn.
+
+-	Providing experience in and appreciation for multiple perspectives - evaluation of alternative solutions.
+
+-	Embedding learning in realistic contexts - authentic tasks.
+
+-	Embedding learning in social experience – collaborative learning.
+
+-	Encourage awareness of the knowledge construction process - reflection, metacognition.
+
+-	Facilitate students to make sense of information presently available and in determining how to respond or relate to the current situation.
+
+
+
+
+---
+class: inverse, center, middle
+
+# Case Study 
+
+### Credit Card Fraud Detection
+
+
+---
+
+# Adapt CRISP-DM for Fraud Mining Process
+
+&lt;img src = "https://github.com/pengdsci/eCOTS2022/blob/main/CRISP-FD.png?raw=true"&gt;
+
+
+---
+
+# Credit Card Transaction Process
+
+
+&lt;img src = "https://github.com/pengdsci/eCOTS2022/blob/main/creditCardProcessing.png?raw=true"&gt;
+
+---
+
+# What is Credit Card Fraud?
+
+**Credit card fraud** is a form of identity theft that involves an unauthorized taking of another’s credit card information for the purpose of charging purchases to the account or removing funds from it. 
+
+**Credit Card Fraud Types**: Credit card fraud schemes generally fall into one of two categories of fraud: application fraud and account takeover.
+
+- Identity theft
+
+- [Skimming Fraud (a kind of account takeover)](https://www.youtube.com/watch?v=G_aH50Tn8Fo)
+
+**Why Combat Credit Fraud Loss**:  Card fraud over the next decade will cost the industry a collective $408.50 billion in losses globally, according to an annual report from the industry research firm Nilson Report. 
+
+
+
+---
+
+# Fraud Data Generation Process &amp; Availability
+
+ &lt;font color = "darkred"&gt;&lt;b&gt;Pre-authorization&lt;/b&gt;&lt;/font&gt;: timestamp, geo-info of POS, Card information (card number, expiration date, billing address, security code)
+
+ &lt;font color = "darkred"&gt;&lt;b&gt;Authorization&lt;/b&gt;&lt;/font&gt;:  Pre-auth info + requested payment amount
+
+ &lt;font color = "darkred"&gt;&lt;b&gt;Authentication&lt;/b&gt;&lt;/font&gt;: the issuing bank will 
+
+- verify the authorization information sent from the processor: validating card info and checking the availability of funds (credit line); and
+
+- send the result of the authentication to the merchant: approval or denial.
+
+- The merchant will send the complete transaction information to the issuing bank or the processor.
+
+
+---
+
+# Fraud Data Generation Process: A General Fraud Management System
+
+&lt;img src = "https://github.com/pengdsci/eCOTS2022/blob/main/fraudDetationProcess.png?raw=true"&gt;
+
+
+
+---
+#	Availability and Types of Data
+
+Based on credit card processing and the general fraud detection system, The following information is available in different processing stages:
+
+
+-	**Pre-authorization Data**: geo-info of POS, timestamps, card information.
+
+-	**Authorization and Authentication Data**: pre-auth info + payment info.
+
+-	**Historical Data**: complete transaction information (at least 2 years back), confirmed fraud (labels), account information, etc.
+
+- **Other Publicly Data**: crime rate, 
+
+
+---
+
+# Data Preparation - Collection
+
+**Goal**: detect/identify fraudulent transactions.
+ 
+**Challenges**: 
+
+- No information about fraudsters!
+
+- Real-time detection.
+
+- rarity of fraud.
+
+**What information is relevant?**
+
+- Current transaction: card info, timestamps, amount, POS info.
+
+- Historical transactions: timestamps, amount, POS info, fraud labels.
+
+- Account information: Card holder’s info.
+
+- Derived merchant site info (including publicly available info).
+
+
+---
+#	Creating Analytic Data According to Potential Analytic Methods
+
+-	**Key Point**: &lt;font color = "red"&gt;&lt;b&gt;Fraudulent activity alters genuine customers’ spending patterns!&lt;/b&gt;&lt;/font&gt;
+
+-	**Cross-sectional Data**: current transactions.
+
+-	**Longitudinal /Panel Data**: current and historical transactions
+
+-	**Hybrid Cross-sectional and Longitudinal Data**: both current transactions and aggregated information of historical transactions 
+
+
+---
+#	Types of Candidate Models/Algorithms
+
+-	Business rules (expert system).
+
+-	Supervised classification models/algorithms (need to handle the issue of the rarity of fraudulent transactions) – using fraud labels to train models (index will be the most powerful predictor variable): logistic and tree-based classification models/algorithms.
+
+-	Unsupervised anomaly detection methods – using the distribution to detect fraud: high quantile along with operational constraints.
+
+-	Other probabilistic models/algorithms such as HMM.
+
+
+
+---
+#	Fraud Index Based on Historical Transactions
+
+&lt;font color = "red"&gt;&lt;b&gt;How fraudulent activities alter genuine customers’ spending patterns.&lt;/b&gt;&lt;/font&gt;
+
+&lt;center&gt;&lt;img src = "https://github.com/pengdsci/eCOTS2022/blob/main/alterPattern.png?raw=true"  width="600" height="300"&gt;&lt;/center&gt;
+
+
+
+-	The transaction dollar amount is significantly different from that of genuine customers.
+
+-	The genuine customers spending frequency will be changed.
+
+-	The genuine customers’ transaction gap times (time between consecutive transactions) will be changed.
+
+
+
+
+
+
+---
+# What is Process Capability Index (PCI)?
+
+Process capability compares the output of an in-control process to the specification limits by using capability indices.
+
+&lt;img src = "https://github.com/pengdsci/eCOTS2022/blob/main/rollingPCI.png?raw=true"&gt;
+
+-	If the PCI of a process is under a threshold, the process is incapable.
+-	There are different PCIs for different processes (main manufacturing processes).
+-	USL and LSL need to be estimated (there are different estimation methods).
+
+
+---
+class:inverse, center, middle
+
+# A Numerical Example
+
+### Data Layout, Candidate Models and Algorithms
+
+
+---
+
+#	The “Capability” of Customers’ Spending Process – Fraud Index
+
+For illustration, we define a fraud index using payment dollar amount to define the fraud index as shown in the following figure.
+
+&lt;img src = "https://github.com/pengdsci/eCOTS2022/blob/main/fraudIdxDef.png?raw=true"&gt;
+
+
+---
+
+# Pre-processed Data (Long Table)
+
+&lt;img src = "https://github.com/pengdsci/eCOTS2022/blob/main/rawData.png?raw=true"&gt;
+
+
+---
+
+# Data Matrix 
+
+&lt;img src = "https://github.com/pengdsci/eCOTS2022/blob/main/dataMatriix.png?raw=true"&gt;
+
+
+---
+class: inverse, center, middle
+
+# A PCI-like Fraud Index Using Payment Amount
+
+
+
+## 
+`$$idx=\frac{(USL-\mu)^2}{9(\mbox{max} - \mu)^2+(T-\mu)^2}$$`
+
+
+
+### USL, T: Estimated from the larger data.
+
+### max, `\(\mu\)`: Estimated from the smaller data.
+
+### Sample sizes of both data sets are tuning parameters
+
+
+---
+
+# How Fraud Index Works in Fraud Detection
+
+&lt;video width="800" height="550" controls&gt;
+  &lt;source src="https://github.com/pengdsci/eCOTS2022/raw/main/IndexModelExample.mp4" type="video/mp4"&gt;
+&lt;/video&gt;
+
+
+---
+
+# Distribution of Resulting Fraud Index
+
+&lt;img src = "https://github.com/pengdsci/eCOTS2022/blob/main/fraudDist.png?raw=true"&gt;
+
+- &lt;font color = "red"&gt;The above figure indicates that the fraud index can be used as a standalone fraud detection algorithm with no structural parameters&lt;/font&gt; - &lt;font color = "blue"&gt;&lt;b&gt;an unsupervised anomaly detection.&lt;/b&gt;&lt;/font&gt;
+
+---
+
+# Performance Analysis
+
+&lt;center&gt;&lt;img src = "https://github.com/pengdsci/eCOTS2022/blob/main/liftAnalysis.png?raw=true"  width="600" height="400"&gt;&lt;/center&gt;
+
+- Consideration of multivariate fraud index to incorporate gap time and spending frequency to boost the discriminatory power of the index.
+
+---
+# Supervised Algorithms and Models
+
+
+Fraud index will be used as a feature variable.
+
+Models and algorithms need to account for imbalance labels.
+
+- Firth penalized logit models.
+
+- King and Zeng's rare event logistic model.
+
+- Qing's semi-parametric logistic model.
+
+- penalized tree-based algorithm (including BAGGING. RF is not an option for this particular case).
+ 
+- regular logit models based over-/under sampled data.
+
+- asymmetric-link GLMs.
+
+
+---
+class: inverse, center, middle
+
+# Deployment / Monitoring and Updating
+
+## 
+
+
+
+
+
+---
+class: inverse,center, middle
+
+# Thanks!
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
